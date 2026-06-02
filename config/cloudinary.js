@@ -8,7 +8,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Storage for projects
+//  projects
 const projectStorage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -17,7 +17,16 @@ const projectStorage = new CloudinaryStorage({
   },
 });
 
-// Storage for certifications
+// certifications
+const certStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "portfolio/certifications",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
+});
+
+// certifications
 const certStorage = new CloudinaryStorage({
   cloudinary,
   params: {
