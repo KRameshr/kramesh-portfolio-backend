@@ -4,7 +4,7 @@ const aboutSchema = new mongoose.Schema({
   name: { type: String, required: true },
   title: { type: String, required: true },
   bio: { type: String, required: true },
-  image_url: { type: String }, // ← Cloudinary URL
+  image_url: { type: String },
   image_public_id: { type: String },
   resume_url: { type: String },
   github: { type: String },

@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema(
     slug: { type: String, required: true, unique: true },
     content: { type: String, required: true },
     excerpt: { type: String },
-    cover_image_url: { type: String }, // ← Cloudinary URL
+    cover_image_url: { type: String },
     cover_image_public_id: { type: String },
     is_published: { type: Boolean, default: false },
   },

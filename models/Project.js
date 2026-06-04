@@ -5,8 +5,8 @@ const projectSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
     tech_stack: { type: String, required: true },
-    image_url: { type: String }, // ← Cloudinary URL
-    image_public_id: { type: String }, // ← for deleting old image
+    image_url: { type: String },
+    image_public_id: { type: String },
     live_url: { type: String },
     github_url: { type: String },
     is_featured: { type: Boolean, default: false },

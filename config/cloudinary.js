@@ -26,16 +26,7 @@ const certStorage = new CloudinaryStorage({
   },
 });
 
-// certifications
-const certStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "portfolio/certifications",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-  },
-});
-
-// Storage for about/profile
+// for about/profile
 const aboutStorage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -44,7 +35,7 @@ const aboutStorage = new CloudinaryStorage({
   },
 });
 
-// Storage for blogs
+//  for blogs
 const blogStorage = new CloudinaryStorage({
   cloudinary,
   params: {

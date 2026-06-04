@@ -12,7 +12,6 @@ describe("Projects Routes", () => {
     const res = await request(app)
       .post("/api/projects")
       .send({ title: "Test", description: "Test", tech_stack: "React" });
-
     expect(res.statusCode).toBe(401);
   });
 });
