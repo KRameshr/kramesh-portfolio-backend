@@ -62,6 +62,13 @@ backend/
 ├── package.json
 └── server.js
 ```
+## 📊 System Architecture
+
+### Backend Flow Diagram
+![Backend Flow Architecture](Backed.snapchart.png)
+
+### Database Schema Map
+![Database Snapchart](db,snapchart.png)
 
 ## 🚀 Getting Started
 
