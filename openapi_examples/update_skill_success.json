@@ -1,0 +1,26 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/skills/64f1a2b3c4d5e6f7a8b9c0d3",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNmY1ZmQyODlkYWRjNTIyZjk1ZmY5YyIsImlhdCI6MTc4NTc0NjIxNCwiZXhwIjoxNzg2MzUxMDE0fQ.kFDcK5_pYvMK_ibipRWADu8knjUoA9l504ZutrKcOEs"
+    },
+    "body": {
+      "name": "Java",
+      "category": "programming",
+      "icon_url": "https://example.com/icons/java.svg",
+      "proficiency": 80
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d3",
+      "name": "Java",
+      "category": "programming",
+      "icon_url": "https://example.com/icons/java.svg",
+      "proficiency": 80
+    }
+  }
+}

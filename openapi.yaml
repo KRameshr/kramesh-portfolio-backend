@@ -1,0 +1,721 @@
+openapi: 3.0.1
+info:
+  title: Kramesh Portfolio Backend API
+  description: API for managing portfolio content (education, experience, skills).
+  version: "1.0"
+servers:
+  - url: http://localhost:3000/api
+tags:
+  - name: education
+  - name: experience
+  - name: skills
+paths:
+  /education:
+    get:
+      tags:
+        - education
+      operationId: getEducation
+      summary: List all education entries
+      description: Returns an array of education records, sorted by display_order.
+      responses:
+        200:
+          description: Education entries found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Education"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags:
+        - education
+      operationId: createEducation
+      summary: Create an education entry
+      description: Creates a new education record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EducationFields"
+            examples:
+              create_education_success:
+                $ref: "openapi_examples/create_education_success.json"
+      responses:
+        201:
+          description: Education entry created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Education"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /education/{id}:
+    put:
+      tags:
+        - education
+      operationId: updateEducation
+      summary: Update an education entry by ID
+      description: Updates an existing education record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EducationFields"
+            examples:
+              update_education_success:
+                $ref: "openapi_examples/update_education_success.json"
+      responses:
+        200:
+          description: Education entry updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Education"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - education
+      operationId: deleteEducation
+      summary: Delete an education entry by ID
+      description: Deletes an education record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d1"
+      responses:
+        200:
+          description: Education entry deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /experience:
+    get:
+      tags:
+        - experience
+      operationId: getExperience
+      summary: List all experience entries
+      description: Returns an array of experience records, sorted by display_order.
+      responses:
+        200:
+          description: Experience entries found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Experience"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags:
+        - experience
+      operationId: createExperience
+      summary: Create an experience entry
+      description: Creates a new experience record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExperienceFields"
+            examples:
+              create_experience_success:
+                $ref: "openapi_examples/create_experience_success.json"
+      responses:
+        201:
+          description: Experience entry created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Experience"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /experience/{id}:
+    put:
+      tags:
+        - experience
+      operationId: updateExperience
+      summary: Update an experience entry by ID
+      description: Updates an existing experience record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d2"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExperienceFields"
+            examples:
+              update_experience_success:
+                $ref: "openapi_examples/update_experience_success.json"
+      responses:
+        200:
+          description: Experience entry updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Experience"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - experience
+      operationId: deleteExperience
+      summary: Delete an experience entry by ID
+      description: Deletes an experience record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d2"
+      responses:
+        200:
+          description: Experience entry deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /skills:
+    get:
+      tags:
+        - skills
+      operationId: getSkills
+      summary: List all skills
+      description: Returns an array of skill records.
+      responses:
+        200:
+          description: Skills found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Skill"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags:
+        - skills
+      operationId: createSkill
+      summary: Create a skill
+      description: Creates a new skill record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillFields"
+            examples:
+              create_skill_success:
+                $ref: "openapi_examples/create_skill_success.json"
+      responses:
+        201:
+          description: Skill created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Skill"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /skills/{id}:
+    put:
+      tags:
+        - skills
+      operationId: updateSkill
+      summary: Update a skill by ID
+      description: Updates an existing skill record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d3"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillFields"
+            examples:
+              update_skill_success:
+                $ref: "openapi_examples/update_skill_success.json"
+      responses:
+        200:
+          description: Skill updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Skill"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - skills
+      operationId: deleteSkill
+      summary: Delete a skill by ID
+      description: Deletes a skill record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-fA-F]{24}$"
+          example: "64f1a2b3c4d5e6f7a8b9c0d3"
+      responses:
+        200:
+          description: Skill deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  value:
+                    message: "Not authorized"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      title: Error response
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Not authorized"
+      required:
+        - message
+    DeleteMessage:
+      title: Delete confirmation message
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Education deleted"
+      required:
+        - message
+    EducationFields:
+      title: Education fields
+      description: Editable fields of an education entry.
+      type: object
+      properties:
+        institution:
+          type: string
+          example: "Sri Venkateswara University"
+        location:
+          type: string
+          example: "Tirupati, Andhra Pradesh"
+        degree:
+          type: string
+          example: "B.Tech Computer Science"
+        branch:
+          type: string
+          example: "Computer Science and Engineering"
+        start_date:
+          type: string
+          example: "2020-08-01"
+        end_date:
+          type: string
+          example: "2024-05-30"
+        progress:
+          type: string
+          example: "Completed"
+        is_current:
+          type: boolean
+          example: false
+        display_order:
+          type: integer
+          example: 1
+      required:
+        - institution
+        - degree
+        - start_date
+    Education:
+      title: Education
+      description: An education entry.
+      allOf:
+        - $ref: "#/components/schemas/EducationFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: "^[0-9a-fA-F]{24}$"
+              example: "64f1a2b3c4d5e6f7a8b9c0d1"
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    ExperienceFields:
+      title: Experience fields
+      description: Editable fields of an experience entry.
+      type: object
+      properties:
+        company:
+          type: string
+          example: "Agile FAQs Technology Pvt. Ltd."
+        role:
+          type: string
+          example: "Software Intern"
+        location:
+          type: string
+          example: "Remote"
+        type:
+          type: string
+          example: "Internship"
+        start_date:
+          type: string
+          example: "2026-07-01"
+        end_date:
+          type: string
+          example: "2026-08-02"
+        is_current:
+          type: boolean
+          example: false
+        description:
+          type: string
+          example: "Worked on contract testing with Specmatic and OpenAPI."
+        skills:
+          type: string
+          example: "Java, Spring Boot, OpenAPI, Specmatic"
+        display_order:
+          type: integer
+          example: 1
+      required:
+        - company
+        - role
+        - start_date
+    Experience:
+      title: Experience
+      description: An experience entry.
+      allOf:
+        - $ref: "#/components/schemas/ExperienceFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: "^[0-9a-fA-F]{24}$"
+              example: "64f1a2b3c4d5e6f7a8b9c0d2"
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    SkillFields:
+      title: Skill fields
+      description: Editable fields of a skill.
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Java"
+        category:
+          type: string
+          enum: [frontend, backend, database, tools, programming, other]
+          example: "programming"
+        icon_url:
+          type: string
+          example: "https://example.com/icons/java.svg"
+        proficiency:
+          type: integer
+          example: 80
+      required:
+        - name
+        - category
+    Skill:
+      title: Skill
+      description: A skill entry.
+      allOf:
+        - $ref: "#/components/schemas/SkillFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: "^[0-9a-fA-F]{24}$"
+              example: "64f1a2b3c4d5e6f7a8b9c0d3"
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id

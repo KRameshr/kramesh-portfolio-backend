@@ -1,14 +1,25 @@
 const mongoose = require("mongoose");
 
-const skillSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  category: {
-    type: String,
-    enum: ["frontend", "backend", "database", "tools", "programming", "other"],
-    required: true,
+const skillSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, cast: false },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "frontend",
+        "backend",
+        "database",
+        "tools",
+        "programming",
+        "other",
+      ],
+      cast: false,
+    },
+    icon_url: { type: String, cast: false },
+    proficiency: { type: Number, cast: false },
   },
-  icon_url: { type: String },
-  proficiency: { type: Number, default: 80 },
-});
+  { timestamps: true },
+);
 
 module.exports = mongoose.model("Skill", skillSchema);

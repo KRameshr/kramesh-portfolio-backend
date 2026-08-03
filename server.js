@@ -3,12 +3,18 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const connectDB = require("./config/db");
+const buildActuatorMappings = require("./utils/actuatorMappings");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // DB
 connectDB();
+
+const mongoose = require("mongoose");
+mongoose.Schema.Types.String.set("cast", false);
+mongoose.Schema.Types.Number.set("cast", false);
+mongoose.Schema.Types.Boolean.set("cast", false);
 
 // Middleware
 app.use(helmet());
@@ -17,6 +23,9 @@ app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => res.json({ message: "Server is running" }));
+
+// Specmatic API-coverage endpoint
+app.get("/actuator/mappings", (req, res) => res.json(buildActuatorMappings()));
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/about", require("./routes/about"));

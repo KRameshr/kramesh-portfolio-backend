@@ -1,4 +1,5 @@
 const Education = require("../models/Education");
+const handleError = require("../utils/handleError");
 
 // GET /api/education (public)
 const getEducation = async (req, res) => {
@@ -6,31 +7,49 @@ const getEducation = async (req, res) => {
     const education = await Education.find().sort({ display_order: 1 });
     res.json(education);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    handleError(res, err);
   }
 };
 
 // POST /api/education (admin)
 const createEducation = async (req, res) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ message: "Request body cannot be empty" });
+    }
+
+    if (Object.values(req.body).some((v) => v === null)) {
+      return res.status(400).json({ message: "Fields cannot be null" });
+    }
+
     const education = await Education.create(req.body);
     res.status(201).json(education);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    handleError(res, err);
   }
 };
 
 // PUT /api/education/:id (admin)
 const updateEducation = async (req, res) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ message: "Request body cannot be empty" });
+    }
+    if (Object.values(req.body).some((v) => v === null)) {
+      return res.status(400).json({ message: "Fields cannot be null" });
+    }
+
     const education = await Education.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true },
+      { new: true, runValidators: true },
     );
+    if (!education) {
+      return res.status(404).json({ message: "Education not found" });
+    }
     res.json(education);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    handleError(res, err);
   }
 };
 
@@ -40,7 +59,7 @@ const deleteEducation = async (req, res) => {
     await Education.findByIdAndDelete(req.params.id);
     res.json({ message: "Education deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    handleError(res, err);
   }
 };
 
