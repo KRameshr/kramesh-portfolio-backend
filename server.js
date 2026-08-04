@@ -17,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => res.json({ message: "Server is running" }));
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/about", require("./routes/about"));
