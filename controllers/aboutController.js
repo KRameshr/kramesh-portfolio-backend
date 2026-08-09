@@ -12,7 +12,16 @@ const getAbout = async (req, res) => {
 
 const createAbout = async (req, res) => {
   try {
-    const data = { ...req.body };
+    const body = req.body || {};
+
+    // Manual validation - required fields must be present and non-null (Specmatic expects 400, not 500)
+    if (!body.name || !body.title || !body.bio) {
+      return res.status(400).json({
+        message: "name, title and bio are required",
+      });
+    }
+
+    const data = { ...body };
     if (req.file) {
       data.image_url = req.file.path;
       data.image_public_id = req.file.filename;
@@ -20,13 +29,26 @@ const createAbout = async (req, res) => {
     const about = await About.create(data);
     res.status(201).json(about);
   } catch (err) {
+    // Mongoose validation errors are also client errors (400), not server errors (500)
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ message: err.message });
+    }
     res.status(500).json({ message: err.message });
   }
 };
 
 const updateAbout = async (req, res) => {
   try {
-    const data = { ...req.body };
+    const body = req.body || {};
+
+    // Manual validation - required fields must be present and non-null (Specmatic expects 400, not 500)
+    if (!body.name || !body.title || !body.bio) {
+      return res.status(400).json({
+        message: "name, title and bio are required",
+      });
+    }
+
+    const data = { ...body };
     if (req.file) {
       const existing = await About.findOne();
       if (existing?.image_public_id) {
@@ -38,9 +60,13 @@ const updateAbout = async (req, res) => {
     const about = await About.findOneAndUpdate({}, data, {
       new: true,
       upsert: true,
+      runValidators: true,
     });
     res.json(about);
   } catch (err) {
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ message: err.message });
+    }
     res.status(500).json({ message: err.message });
   }
 };

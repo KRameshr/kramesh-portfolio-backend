@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Kramesh Portfolio Backend API
-  description: API for managing portfolio content (education, experience, skills).
+  description: API for managing portfolio content (education, experience, skills, about, projects, blogs, contact, certifications, auth).
   version: "1.0"
 servers:
   - url: http://localhost:3000/api
@@ -9,6 +9,12 @@ tags:
   - name: education
   - name: experience
   - name: skills
+  - name: about
+  - name: projects
+  - name: blogs
+  - name: contact
+  - name: certifications
+  - name: auth
 paths:
   /education:
     get:
@@ -32,6 +38,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/education_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
     post:
       tags:
         - education
@@ -48,7 +64,7 @@ paths:
               $ref: "#/components/schemas/EducationFields"
             examples:
               create_education_success:
-                $ref: "openapi_examples/create_education_success.json"
+                $ref: openapi_examples/create_education_success.json
       responses:
         201:
           description: Education entry created successfully.
@@ -70,14 +86,23 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/education_post_unauthorized.json
         500:
           description: Server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/education_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
   /education/{id}:
     put:
       tags:
@@ -93,8 +118,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d1"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d1
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
       requestBody:
         required: true
         content:
@@ -103,7 +134,7 @@ paths:
               $ref: "#/components/schemas/EducationFields"
             examples:
               update_education_success:
-                $ref: "openapi_examples/update_education_success.json"
+                $ref: openapi_examples/update_education_success.json
       responses:
         200:
           description: Education entry updated successfully.
@@ -125,8 +156,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/education_put_unauthorized.json
         404:
           description: Resource not found.
           content:
@@ -139,6 +169,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/education_put_server_error.json
     delete:
       tags:
         - education
@@ -153,8 +186,8 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d1"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d1
       responses:
         200:
           description: Education entry deleted successfully.
@@ -170,16 +203,9 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/education_delete_unauthorized.json
         404:
           description: Resource not found.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        500:
-          description: Server error.
           content:
             application/json:
               schema:
@@ -206,6 +232,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/experience_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
     post:
       tags:
         - experience
@@ -222,7 +258,7 @@ paths:
               $ref: "#/components/schemas/ExperienceFields"
             examples:
               create_experience_success:
-                $ref: "openapi_examples/create_experience_success.json"
+                $ref: openapi_examples/create_experience_success.json
       responses:
         201:
           description: Experience entry created successfully.
@@ -244,14 +280,23 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/experience_post_unauthorized.json
         500:
           description: Server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/experience_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
   /experience/{id}:
     put:
       tags:
@@ -267,8 +312,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d2"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d2
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
       requestBody:
         required: true
         content:
@@ -277,7 +328,7 @@ paths:
               $ref: "#/components/schemas/ExperienceFields"
             examples:
               update_experience_success:
-                $ref: "openapi_examples/update_experience_success.json"
+                $ref: openapi_examples/update_experience_success.json
       responses:
         200:
           description: Experience entry updated successfully.
@@ -299,8 +350,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/experience_put_unauthorized.json
         404:
           description: Resource not found.
           content:
@@ -313,6 +363,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/experience_put_server_error.json
     delete:
       tags:
         - experience
@@ -327,8 +380,8 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d2"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d2
       responses:
         200:
           description: Experience entry deleted successfully.
@@ -344,16 +397,9 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/experience_delete_unauthorized.json
         404:
           description: Resource not found.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        500:
-          description: Server error.
           content:
             application/json:
               schema:
@@ -380,6 +426,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/skills_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
     post:
       tags:
         - skills
@@ -396,7 +452,7 @@ paths:
               $ref: "#/components/schemas/SkillFields"
             examples:
               create_skill_success:
-                $ref: "openapi_examples/create_skill_success.json"
+                $ref: openapi_examples/create_skill_success.json
       responses:
         201:
           description: Skill created successfully.
@@ -418,14 +474,23 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/skills_post_unauthorized.json
         500:
           description: Server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/skills_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
   /skills/{id}:
     put:
       tags:
@@ -441,8 +506,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d3"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d3
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
       requestBody:
         required: true
         content:
@@ -451,7 +522,7 @@ paths:
               $ref: "#/components/schemas/SkillFields"
             examples:
               update_skill_success:
-                $ref: "openapi_examples/update_skill_success.json"
+                $ref: openapi_examples/update_skill_success.json
       responses:
         200:
           description: Skill updated successfully.
@@ -473,8 +544,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/skills_put_unauthorized.json
         404:
           description: Resource not found.
           content:
@@ -487,6 +557,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/skills_put_server_error.json
     delete:
       tags:
         - skills
@@ -501,8 +574,8 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[0-9a-fA-F]{24}$"
-          example: "64f1a2b3c4d5e6f7a8b9c0d3"
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d3
       responses:
         200:
           description: Skill deleted successfully.
@@ -518,8 +591,282 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 unauthorized:
-                  value:
-                    message: "Not authorized"
+                  $ref: openapi_examples/skills_delete_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /about:
+    get:
+      tags:
+        - about
+      operationId: getAbout
+      summary: Get the About record
+      description: Returns the single About-page record (name, bio, links).
+      responses:
+        200:
+          description: About record found and returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/About"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/about_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+    post:
+      tags:
+        - about
+      operationId: createAbout
+      summary: Create the About record
+      description: Creates the About-page record (multipart form, optional image file). Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AboutFields"
+      responses:
+        201:
+          description: About record created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/About"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/about_post_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/about_post_server_error.json
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+    put:
+      tags:
+        - about
+      operationId: updateAbout
+      summary: Update the About record
+      description: Updates (or upserts) the About-page record (multipart form, optional image file). Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AboutFields"
+      responses:
+        200:
+          description: About record updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/About"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/about_put_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/about_put_server_error.json
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /projects:
+    get:
+      tags:
+        - projects
+      operationId: getProjects
+      summary: List all projects
+      description: Returns an array of project records, newest first.
+      responses:
+        200:
+          description: Projects found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/projects_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+    post:
+      tags:
+        - projects
+      operationId: createProject
+      summary: Create a project
+      description: Creates a new project record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectFields"
+      responses:
+        201:
+          description: Project created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/projects_post_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/projects_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /projects/{id}:
+    put:
+      tags:
+        - projects
+      operationId: updateProject
+      summary: Update a project by ID
+      description: Updates an existing project record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d4
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectFields"
+      responses:
+        200:
+          description: Project updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/projects_put_unauthorized.json
         404:
           description: Resource not found.
           content:
@@ -532,6 +879,692 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/projects_put_server_error.json
+    delete:
+      tags:
+        - projects
+      operationId: deleteProject
+      summary: Delete a project by ID
+      description: Deletes a project record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d4
+      responses:
+        200:
+          description: Project deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/projects_delete_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /blogs:
+    get:
+      tags:
+        - blogs
+      operationId: getBlogs
+      summary: List published blogs
+      description: Returns an array of published blog posts, newest first.
+      responses:
+        200:
+          description: Blogs found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Blog"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/blogs_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+    post:
+      tags:
+        - blogs
+      operationId: createBlog
+      summary: Create a blog post
+      description: Creates a new blog post. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogFields"
+      responses:
+        201:
+          description: Blog created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/blogs_post_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/blogs_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /blogs/all:
+    get:
+      tags:
+        - blogs
+      operationId: getAllBlogs
+      summary: List all blogs (admin)
+      description: Returns all blogs, including unpublished. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: All blogs found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Blog"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/blogs_all_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/blogs_all_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /blogs/{slug}:
+    get:
+      tags:
+        - blogs
+      operationId: getBlogBySlug
+      summary: Get a blog by slug
+      description: Returns a single blog post matching the given slug.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+          example: my-first-blog-post
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+      responses:
+        200:
+          description: Blog found and returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                not_found:
+                  value:
+                    message: Blog not found
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/blogs_slug_server_error.json
+  /blogs/{id}:
+    put:
+      tags:
+        - blogs
+      operationId: updateBlog
+      summary: Update a blog by ID
+      description: Updates an existing blog post. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d5
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogFields"
+      responses:
+        200:
+          description: Blog updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/blogs_put_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/blogs_put_server_error.json
+    delete:
+      tags:
+        - blogs
+      operationId: deleteBlog
+      summary: Delete a blog by ID
+      description: Deletes a blog post. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d5
+      responses:
+        200:
+          description: Blog deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/blogs_delete_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /contact:
+    post:
+      tags:
+        - contact
+      operationId: sendMessage
+      summary: Send a contact message
+      description: Public endpoint â€” visitors submit the contact form. No auth required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactFields"
+      responses:
+        201:
+          description: Message sent successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Message sent successfully!
+                required:
+                  - message
+        400:
+          description: Validation failed (missing name, email, or message).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                missing_fields:
+                  value:
+                    message: Name, email and message are required
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/contact_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /contact/messages:
+    get:
+      tags:
+        - contact
+      operationId: getMessages
+      summary: List contact messages (admin)
+      description: Returns all submitted contact messages. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Messages found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/contact_messages_get_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/contact_messages_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /contact/messages/{id}:
+    delete:
+      tags:
+        - contact
+      operationId: deleteMessage
+      summary: Delete a contact message by ID
+      description: Deletes a contact message. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d6
+      responses:
+        200:
+          description: Message deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/contact_messages_delete_unauthorized.json
+  /certifications:
+    get:
+      tags:
+        - certifications
+      operationId: getCertifications
+      summary: List all certifications
+      description: Returns an array of certification records, sorted by display_order.
+      responses:
+        200:
+          description: Certifications found and returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Certification"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/certifications_get_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+    post:
+      tags:
+        - certifications
+      operationId: createCertification
+      summary: Create a certification
+      description: Creates a new certification record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CertificationFields"
+      responses:
+        201:
+          description: Certification created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Certification"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/certifications_post_unauthorized.json
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/certifications_post_server_error.json
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+  /certifications/{id}:
+    put:
+      tags:
+        - certifications
+      operationId: updateCertification
+      summary: Update a certification by ID
+      description: Updates an existing certification record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d7
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CertificationFields"
+      responses:
+        200:
+          description: Certification updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Certification"
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/certifications_put_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/certifications_put_server_error.json
+    delete:
+      tags:
+        - certifications
+      operationId: deleteCertification
+      summary: Delete a certification by ID
+      description: Deletes a certification record. Requires admin authentication.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9a-fA-F]{24}$
+          example: 64f1a2b3c4d5e6f7a8b9c0d7
+      responses:
+        200:
+          description: Certification deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessage"
+        401:
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                unauthorized:
+                  $ref: openapi_examples/certifications_delete_unauthorized.json
+        404:
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      tags:
+        - auth
+      operationId: login
+      summary: Admin login
+      description: Authenticates an admin and returns a JWT token. No auth required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginFields"
+      responses:
+        200:
+          description: Login successful, token returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        401:
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                invalid_credentials:
+                  value:
+                    message: Invalid credentials
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                server_error:
+                  $ref: openapi_examples/auth_login_server_error.json
+        400:
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      parameters:
+        - name: X-Simulate-Error
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Test-only header (NODE_ENV=test) to simulate a 500 server error for contract testing.
 components:
   securitySchemes:
     bearerAuth:
@@ -545,7 +1578,7 @@ components:
       properties:
         message:
           type: string
-          example: "Not authorized"
+          example: Not authorized
       required:
         - message
     DeleteMessage:
@@ -554,7 +1587,7 @@ components:
       properties:
         message:
           type: string
-          example: "Education deleted"
+          example: Education deleted
       required:
         - message
     EducationFields:
@@ -564,16 +1597,16 @@ components:
       properties:
         institution:
           type: string
-          example: "Sri Venkateswara University"
+          example: Sri Venkateswara University
         location:
           type: string
-          example: "Tirupati, Andhra Pradesh"
+          example: Tirupati, Andhra Pradesh
         degree:
           type: string
-          example: "B.Tech Computer Science"
+          example: B.Tech Computer Science
         branch:
           type: string
-          example: "Computer Science and Engineering"
+          example: Computer Science and Engineering
         start_date:
           type: string
           example: "2020-08-01"
@@ -582,7 +1615,7 @@ components:
           example: "2024-05-30"
         progress:
           type: string
-          example: "Completed"
+          example: Completed
         is_current:
           type: boolean
           example: false
@@ -602,8 +1635,8 @@ components:
           properties:
             _id:
               type: string
-              pattern: "^[0-9a-fA-F]{24}$"
-              example: "64f1a2b3c4d5e6f7a8b9c0d1"
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d1
             createdAt:
               type: string
               format: date-time
@@ -622,16 +1655,16 @@ components:
       properties:
         company:
           type: string
-          example: "Agile FAQs Technology Pvt. Ltd."
+          example: Agile FAQs Technology Pvt. Ltd.
         role:
           type: string
-          example: "Software Intern"
+          example: Software Intern
         location:
           type: string
-          example: "Remote"
+          example: Remote
         type:
           type: string
-          example: "Internship"
+          example: Internship
         start_date:
           type: string
           example: "2026-07-01"
@@ -643,10 +1676,10 @@ components:
           example: false
         description:
           type: string
-          example: "Worked on contract testing with Specmatic and OpenAPI."
+          example: Worked on contract testing with Specmatic and OpenAPI.
         skills:
           type: string
-          example: "Java, Spring Boot, OpenAPI, Specmatic"
+          example: Java, Spring Boot, OpenAPI, Specmatic
         display_order:
           type: integer
           example: 1
@@ -663,8 +1696,8 @@ components:
           properties:
             _id:
               type: string
-              pattern: "^[0-9a-fA-F]{24}$"
-              example: "64f1a2b3c4d5e6f7a8b9c0d2"
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d2
             createdAt:
               type: string
               format: date-time
@@ -683,14 +1716,20 @@ components:
       properties:
         name:
           type: string
-          example: "Java"
+          example: Java
         category:
           type: string
-          enum: [frontend, backend, database, tools, programming, other]
-          example: "programming"
+          enum:
+            - frontend
+            - backend
+            - database
+            - tools
+            - programming
+            - other
+          example: programming
         icon_url:
           type: string
-          example: "https://example.com/icons/java.svg"
+          example: https://example.com/icons/java.svg
         proficiency:
           type: integer
           example: 80
@@ -706,8 +1745,8 @@ components:
           properties:
             _id:
               type: string
-              pattern: "^[0-9a-fA-F]{24}$"
-              example: "64f1a2b3c4d5e6f7a8b9c0d3"
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d3
             createdAt:
               type: string
               format: date-time
@@ -719,3 +1758,304 @@ components:
               example: 0
           required:
             - _id
+    AboutFields:
+      title: About fields
+      description: Editable fields of the About record.
+      type: object
+      properties:
+        name:
+          type: string
+          example: Kuruba Ramesh
+        title:
+          type: string
+          example: Full Stack Developer
+        bio:
+          type: string
+          example: I build web applications using the MERN stack and Java/Spring Boot.
+        image_url:
+          type: string
+          example: https://res.cloudinary.com/demo/image/upload/about.jpg
+        resume_url:
+          type: string
+          example: https://res.cloudinary.com/demo/raw/upload/resume.pdf
+        github:
+          type: string
+          example: https://github.com/KRameshr
+        linkedin:
+          type: string
+          example: https://linkedin.com/in/kurubaramesh
+        email:
+          type: string
+          example: ramesh@example.com
+      required:
+        - name
+        - title
+        - bio
+    About:
+      title: About
+      description: The About-page record.
+      allOf:
+        - $ref: "#/components/schemas/AboutFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d8
+            image_public_id:
+              type: string
+              example: about_abc123
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    ProjectFields:
+      title: Project fields
+      description: Editable fields of a project.
+      type: object
+      properties:
+        title:
+          type: string
+          example: kramesh-portfolio-backend
+        description:
+          type: string
+          example: Portfolio backend API built with Node.js, Express, and MongoDB.
+        tech_stack:
+          type: string
+          example: Node.js, Express, MongoDB, JWT
+        image_url:
+          type: string
+          example: https://res.cloudinary.com/demo/image/upload/project.jpg
+        live_url:
+          type: string
+          example: https://kramesh.dev
+        github_url:
+          type: string
+          example: https://github.com/KRameshr/kramesh-portfolio-backend
+        is_featured:
+          type: boolean
+          example: true
+      required:
+        - title
+        - description
+        - tech_stack
+    Project:
+      title: Project
+      description: A project entry.
+      allOf:
+        - $ref: "#/components/schemas/ProjectFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d4
+            image_public_id:
+              type: string
+              example: project_abc123
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    BlogFields:
+      title: Blog fields
+      description: Editable fields of a blog post.
+      type: object
+      properties:
+        title:
+          type: string
+          example: How I Set Up Specmatic Contract Testing
+        slug:
+          type: string
+          example: how-i-set-up-specmatic-contract-testing
+        content:
+          type: string
+          example: In this post I walk through setting up Specmatic contract tests...
+        excerpt:
+          type: string
+          example: A step-by-step guide to contract testing with Specmatic.
+        cover_image_url:
+          type: string
+          example: https://res.cloudinary.com/demo/image/upload/blog.jpg
+        is_published:
+          type: boolean
+          example: true
+      required:
+        - title
+        - slug
+        - content
+    Blog:
+      title: Blog
+      description: A blog post.
+      allOf:
+        - $ref: "#/components/schemas/BlogFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d5
+            cover_image_public_id:
+              type: string
+              example: blog_abc123
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    ContactFields:
+      title: Contact fields
+      description: Fields submitted through the contact form.
+      type: object
+      properties:
+        name:
+          type: string
+          example: Priya Sharma
+        email:
+          type: string
+          example: priya@example.com
+        subject:
+          type: string
+          example: Project collaboration inquiry
+        message:
+          type: string
+          example: Hi, I'd like to discuss a potential collaboration.
+      required:
+        - name
+        - email
+        - message
+    Contact:
+      title: Contact message
+      description: A stored contact-form submission.
+      allOf:
+        - $ref: "#/components/schemas/ContactFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d6
+            is_read:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    CertificationFields:
+      title: Certification fields
+      description: Editable fields of a certification.
+      type: object
+      properties:
+        institution_name:
+          type: string
+          example: IIT Roorkee
+        certificate_name:
+          type: string
+          example: Executive PG Certification in Full Stack Web Development
+        certificate_id:
+          type: string
+          example: IITR-FSD-2026-001
+        description:
+          type: string
+          example: A comprehensive program covering MERN stack and Java/Spring Boot.
+        skills:
+          type: string
+          example: React, Node.js, Java, Spring Boot
+        start_date:
+          type: string
+          example: "2025-06-01"
+        end_date:
+          type: string
+          example: "2026-05-30"
+        is_expired:
+          type: boolean
+          example: false
+        credential_url:
+          type: string
+          example: https://example.com/verify/abc123
+        image_url:
+          type: string
+          example: https://res.cloudinary.com/demo/image/upload/cert.jpg
+        display_order:
+          type: integer
+          example: 1
+      required:
+        - institution_name
+        - certificate_name
+    Certification:
+      title: Certification
+      description: A certification entry.
+      allOf:
+        - $ref: "#/components/schemas/CertificationFields"
+        - type: object
+          properties:
+            _id:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+              example: 64f1a2b3c4d5e6f7a8b9c0d7
+            image_public_id:
+              type: string
+              example: cert_abc123
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              example: 0
+          required:
+            - _id
+    LoginFields:
+      title: Login fields
+      description: Admin login credentials.
+      type: object
+      properties:
+        email:
+          type: string
+          example: admin@kramesh.dev
+        password:
+          type: string
+          example: SecurePassword123
+      required:
+        - email
+        - password
+    LoginResponse:
+      title: Login response
+      description: JWT token returned on successful login.
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBkOSJ9.signature
+      required:
+        - token

@@ -1,0 +1,26 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/education",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    },
+    "body": {
+      "institution": "Test University",
+      "location": "Test City",
+      "degree": "B.Tech",
+      "branch": "CSE",
+      "start_date": "2020-08-01",
+      "end_date": "2024-05-30",
+      "progress": "Completed",
+      "is_current": false,
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

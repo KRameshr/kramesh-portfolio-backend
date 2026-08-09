@@ -55,7 +55,10 @@ const updateSkill = async (req, res) => {
 // DELETE /api/skills/:id (admin)
 const deleteSkill = async (req, res) => {
   try {
-    await Skill.findByIdAndDelete(req.params.id);
+    const skill = await Skill.findByIdAndDelete(req.params.id);
+    if (!skill) {
+      return res.status(404).json({ message: "Skill not found" });
+    }
     res.json({ message: "Skill deleted" });
   } catch (err) {
     handleError(res, err);

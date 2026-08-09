@@ -1,0 +1,27 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/about",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "name": "Kuruba Ramesh Updated",
+      "title": "Senior Full Stack Developer",
+      "bio": "Updated bio",
+      "resume_url": "https://example.com/resume.pdf",
+      "github": "https://github.com/KRameshr",
+      "linkedin": "https://linkedin.com/in/kurubaramesh",
+      "email": "ramesh@email.com"
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d8",
+      "name": "Kuruba Ramesh Updated",
+      "title": "Senior Full Stack Developer",
+      "bio": "Updated bio"
+    }
+  }
+}

@@ -3,8 +3,7 @@
     "method": "PUT",
     "path": "/education/64f1a2b3c4d5e6f7a8b9c0d1",
     "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNmY1ZmQyODlkYWRjNTIyZjk1ZmY5YyIsImlhdCI6MTc4NTc0NjIxNCwiZXhwIjoxNzg2MzUxMDE0fQ.kFDcK5_pYvMK_ibipRWADu8knjUoA9l504ZutrKcOEs"
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
     },
     "body": {
       "institution": "Sri Venkateswara University",

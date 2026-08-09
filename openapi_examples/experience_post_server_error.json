@@ -1,0 +1,28 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/experience",
+    "headers": {
+      "X-Simulate-Error": "true",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "company": "Test Co",
+      "role": "Intern",
+      "location": "Remote",
+      "type": "Internship",
+      "start_date": "2026-01-01",
+      "end_date": "2026-06-01",
+      "is_current": false,
+      "description": "Test",
+      "skills": "Test",
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

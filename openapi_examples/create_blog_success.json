@@ -1,0 +1,25 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/blogs",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "title": "Getting Started with Specmatic",
+      "slug": "getting-started-with-specmatic",
+      "content": "Specmatic is a powerful tool for contract testing.",
+      "excerpt": "Learn contract testing",
+      "is_published": true
+    }
+  },
+  "http-response": {
+    "status": 201,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d5",
+      "title": "Getting Started with Specmatic",
+      "slug": "getting-started-with-specmatic",
+      "content": "Specmatic is a powerful tool for contract testing."
+    }
+  }
+}

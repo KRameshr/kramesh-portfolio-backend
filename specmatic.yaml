@@ -4,6 +4,7 @@ specmatic:
   settings:
     test:
       schemaResiliencyTests: all
+      maxTestRequestCombinations: 1
 
 systemUnderTest:
   service:

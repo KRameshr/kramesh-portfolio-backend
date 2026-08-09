@@ -1,0 +1,24 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/about",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    },
+    "body": {
+      "name": "Test Name",
+      "title": "Test Title",
+      "bio": "Test bio",
+      "resume_url": "https://example.com/resume.pdf",
+      "github": "https://github.com/test",
+      "linkedin": "https://linkedin.com/in/test",
+      "email": "test@example.com"
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

@@ -56,7 +56,10 @@ const updateExperience = async (req, res) => {
 // DELETE /api/experience/:id (admin)
 const deleteExperience = async (req, res) => {
   try {
-    await Experience.findByIdAndDelete(req.params.id);
+    const experience = await Experience.findByIdAndDelete(req.params.id);
+    if (!experience) {
+      return res.status(404).json({ message: "Experience not found" });
+    }
     res.json({ message: "Experience deleted" });
   } catch (err) {
     handleError(res, err);

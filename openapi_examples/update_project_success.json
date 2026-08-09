@@ -1,0 +1,26 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/projects/64f1a2b3c4d5e6f7a8b9c0d4",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "title": "Updated Portfolio API",
+      "description": "Updated description.",
+      "tech_stack": "Node.js, Express, MongoDB, React",
+      "live_url": "https://kramesh.dev",
+      "github_url": "https://github.com/KRameshr/kramesh-portfolio-backend",
+      "is_featured": true
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d4",
+      "title": "Updated Portfolio API",
+      "description": "Updated description.",
+      "tech_stack": "Node.js, Express, MongoDB, React"
+    }
+  }
+}

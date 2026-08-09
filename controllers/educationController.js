@@ -56,7 +56,10 @@ const updateEducation = async (req, res) => {
 // DELETE /api/education/:id (admin)
 const deleteEducation = async (req, res) => {
   try {
-    await Education.findByIdAndDelete(req.params.id);
+    const education = await Education.findByIdAndDelete(req.params.id);
+    if (!education) {
+      return res.status(404).json({ message: "Education not found" });
+    }
     res.json({ message: "Education deleted" });
   } catch (err) {
     handleError(res, err);
