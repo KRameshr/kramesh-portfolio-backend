@@ -1,17 +1,3 @@
-/**
- * Validation middleware for Specmatic contract tests.
- * Validates both required and optional fields for presence and type.
- *
- * Required fields: must be present (not null/undefined/empty) AND correct type.
- * Optional fields: if the key IS present in the body, value must not be null
- *   and must match the expected type. If the key is absent, it's skipped.
- *
- * Usage:
- *   const { validate } = require("../middleware/validate");
- *   const schemas = require("./validationSchemas");
- *   router.post("/", validate(schemas.createProject), createProject);
- */
-
 const validate = (schema) => {
   return (req, res, next) => {
     const body = req.body || {};
@@ -35,8 +21,6 @@ const validate = (schema) => {
       }
     }
 
-    // 2. Check optional fields — if key is present, value must not be null
-    //    and must match the expected type. Absent keys are skipped.
     for (const [field, expectedType] of Object.entries(optional)) {
       if (!(field in body)) continue; // key absent — OK, skip
 

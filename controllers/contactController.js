@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 const Contact = require("../models/Contact");
 
-// Create transporter only if email credentials exist
 const transporter =
   process.env.EMAIL_USER && process.env.EMAIL_PASS
     ? nodemailer.createTransport({
@@ -14,11 +13,8 @@ const transporter =
     : null;
 
 const sendMessage = async (req, res) => {
-  // GUARD: req.body undefined aina handle cheyyali (Specmatic test fix)
   const body = req.body || {};
   const { name, email, subject, message } = body;
-
-  // Validation - subject null aina accept cheyyali (optional field)
   if (!name || !email || !message) {
     return res.status(400).json({
       message: "Name, email and message are required",
@@ -26,7 +22,6 @@ const sendMessage = async (req, res) => {
   }
 
   try {
-    // Save to DB first (always works)
     await Contact.create({
       name,
       email,
@@ -34,7 +29,6 @@ const sendMessage = async (req, res) => {
       message,
     });
 
-    // Email ONLY in production, NOT in test env
     if (process.env.NODE_ENV !== "test" && transporter) {
       try {
         await transporter.sendMail({

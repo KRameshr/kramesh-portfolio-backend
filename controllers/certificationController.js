@@ -4,7 +4,7 @@ const { cloudinary } = require("../config/cloudinary");
 const getCertifications = async (req, res) => {
   try {
     const certs = await Certification.find().sort({ display_order: 1 });
-    res.json(certs); // Direct array
+    res.json(certs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -44,7 +44,7 @@ const createCertification = async (req, res) => {
     }
 
     const cert = await Certification.create(data);
-    res.status(201).json(cert); // Direct object
+    res.status(201).json(cert);
   } catch (err) {
     console.error("Create certification error:", err);
     res.status(500).json({ message: err.message });
@@ -95,11 +95,11 @@ const updateCertification = async (req, res) => {
     }
 
     const cert = await Certification.findByIdAndUpdate(req.params.id, data, {
-      new: true,
+      returnDocument: "after", // ✅ new: true ki badulu updated option
     });
     if (!cert)
       return res.status(404).json({ message: "Certification not found" });
-    res.json(cert); // Direct object
+    res.json(cert);
   } catch (err) {
     console.error("Update certification error:", err);
     res.status(500).json({ message: err.message });

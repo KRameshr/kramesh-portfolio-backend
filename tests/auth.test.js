@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const app = require("../server");
 
 describe("Auth Routes", () => {
@@ -20,7 +21,9 @@ describe("Auth Routes", () => {
   });
 });
 
+// ✅ CORRECT FIX
 afterAll(async () => {
-  const mongoose = require("mongoose");
-  await mongoose.connection.close();
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
+  }
 });

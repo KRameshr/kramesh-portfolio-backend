@@ -1,4 +1,4 @@
-openapi: 3.0.1
+﻿openapi: 3.0.1
 info:
   title: Kramesh Portfolio Backend API
   description: API for managing portfolio content (education, experience, skills, about, projects, blogs, contact, certifications, auth).

@@ -1,11 +1,4 @@
 // tests/specmaticGlobalSetup.js
-//
-// This runs once, before all Jest test suites. It:
-// 1. Re-seeds the database with test data
-// 2. Checks if Express server is already running on port 3000; if not, starts one
-// 3. Executes Specmatic's contract tests against the server
-// 4. Stops the server if we started it internally
-
 const { test } = require("specmatic");
 const { execSync } = require("child_process");
 const path = require("path");
@@ -22,16 +15,16 @@ const isPortInUse = (port) => {
 };
 
 module.exports = async () => {
-  // 1. Re-seed the database so DELETE tests have fresh records
+  // 1. Re-seed the database
   console.log("Re-seeding database before contract tests...");
   try {
     execSync("node seed/specmaticTestData.js", {
       cwd: path.resolve(__dirname, ".."),
       stdio: "inherit",
     });
-    console.log("✅ Database re-seeded successfully");
+    console.log("Database re-seeded successfully");
   } catch (err) {
-    console.error("❌ Seeding failed:", err.message);
+    console.error(" Seeding failed:", err.message);
   }
 
   // 2. Check if server is already running
@@ -39,7 +32,7 @@ module.exports = async () => {
 
   if (alreadyRunning) {
     console.log(
-      "ℹ️ Express server is already running on port 3000. Reusing existing server.",
+      " Express server is already running on port 3000. Reusing existing server.",
     );
   } else {
     console.log("Starting Express server for contract tests...");
@@ -47,11 +40,12 @@ module.exports = async () => {
     await new Promise((resolve, reject) => {
       serverInstance = app.listen(3000, (err) => {
         if (err) return reject(err);
-        console.log("✅ Server started on port 3000");
+        console.log("Server started on port 3000");
         resolve();
       });
-      global.__TEST_SERVER__ = serverInstance;
     });
+    // Jest global teardown ki same variable share chestunnam
+    global.__EXPRESS_SERVER__ = serverInstance;
   }
 
   // 3. Run Specmatic contract tests
@@ -60,14 +54,4 @@ module.exports = async () => {
     "--testBaseURL=http://localhost:3000/api",
   ]);
   console.log("Specmatic contract test results:", results);
-
-  // 4. Close the server ONLY if we started it ourselves
-  if (serverInstance) {
-    await new Promise((resolve) => {
-      serverInstance.close(() => {
-        console.log("✅ Server stopped after contract tests");
-        resolve();
-      });
-    });
-  }
 };

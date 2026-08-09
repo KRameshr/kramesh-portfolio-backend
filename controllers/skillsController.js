@@ -40,7 +40,7 @@ const updateSkill = async (req, res) => {
     }
 
     const skill = await Skill.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     });
     if (!skill) {

@@ -4,7 +4,7 @@ const { cloudinary } = require("../config/cloudinary");
 const getProjects = async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
-    res.json(projects); // Direct array
+    res.json(projects);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -40,7 +40,7 @@ const createProject = async (req, res) => {
     else if (body.featured !== undefined) data.is_featured = body.featured;
 
     const project = await Project.create(data);
-    res.status(201).json(project); // Direct object
+    res.status(201).json(project);
   } catch (err) {
     console.error("Create project error:", err);
     res.status(500).json({ message: err.message });
@@ -84,10 +84,10 @@ const updateProject = async (req, res) => {
     }
 
     const project = await Project.findByIdAndUpdate(req.params.id, data, {
-      new: true,
+      returnDocument: "after",
     });
     if (!project) return res.status(404).json({ message: "Project not found" });
-    res.json(project); // Direct object
+    res.json(project);
   } catch (err) {
     console.error("Update project error:", err);
     res.status(500).json({ message: err.message });

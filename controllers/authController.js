@@ -3,11 +3,9 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 
 const login = async (req, res) => {
-  // GUARD: req.body undefined aina handle cheyyali (Specmatic test fix)
   const body = req.body || {};
   const { email, password } = body;
 
-  // Validation - null email/password ki 400 return cheyyali (Specmatic expects 4xx)
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }
