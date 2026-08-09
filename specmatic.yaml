@@ -1,0 +1,33 @@
+version: 3
+
+specmatic:
+  settings:
+    test:
+      schemaResiliencyTests: all
+      maxTestRequestCombinations: 1
+
+systemUnderTest:
+  service:
+    $ref: "#/components/services/krameshPortfolioService"
+    runOptions:
+      $ref: "#/components/runOptions/krameshPortfolioServiceTest"
+
+components:
+  services:
+    krameshPortfolioService:
+      description: Kramesh Portfolio Backend REST Service
+      definitions:
+        - definition:
+            specs:
+              - spec:
+                  path: openapi.yaml
+            source:
+              filesystem:
+                directory: .
+
+  runOptions:
+    krameshPortfolioServiceTest:
+      openapi:
+        type: test
+        baseUrl: http://localhost:3000/api
+        actuatorUrl: http://localhost:3000/actuator/mappings

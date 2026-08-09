@@ -1,0 +1,16 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/auth/login",
+    "body": {
+      "email": "wrong@kramesh.dev",
+      "password": "WrongPassword123"
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Invalid credentials"
+    }
+  }
+}

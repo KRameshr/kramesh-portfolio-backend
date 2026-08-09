@@ -1,0 +1,29 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/certifications/64f1a2b3c4d5e6f7a8b9c0d7",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "institution_name": "AWS Updated",
+      "certificate_name": "AWS Certified Solutions Architect",
+      "certificate_id": "AWS-123",
+      "description": "Updated description",
+      "skills": "AWS, Cloud",
+      "start_date": "2024-01-01",
+      "end_date": "2027-01-01",
+      "is_expired": false,
+      "credential_url": "https://credly.com/aws-123",
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d7",
+      "institution_name": "AWS Updated",
+      "certificate_name": "AWS Certified Solutions Architect"
+    }
+  }
+}

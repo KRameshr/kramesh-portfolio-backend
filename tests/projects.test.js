@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const app = require("../server");
 
 describe("Projects Routes", () => {
@@ -16,7 +17,7 @@ describe("Projects Routes", () => {
   });
 });
 
+// ✅ CORRECT FIX
 afterAll(async () => {
-  const mongoose = require("mongoose");
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 });

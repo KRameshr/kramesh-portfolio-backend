@@ -1,0 +1,15 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/experience",
+    "headers": {
+      "X-Simulate-Error": "true"
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

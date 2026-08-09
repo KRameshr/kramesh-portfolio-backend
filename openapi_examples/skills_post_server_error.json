@@ -1,0 +1,22 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/skills",
+    "headers": {
+      "X-Simulate-Error": "true",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "name": "Java",
+      "category": "programming",
+      "icon_url": "https://example.com/icon.svg",
+      "proficiency": 80
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

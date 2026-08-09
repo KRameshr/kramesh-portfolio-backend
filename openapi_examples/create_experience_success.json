@@ -1,0 +1,37 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/experience",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "company": "Agile FAQs Technology Pvt. Ltd.",
+      "role": "Software Intern",
+      "location": "Remote",
+      "type": "Internship",
+      "start_date": "2026-07-01",
+      "end_date": "2026-08-02",
+      "is_current": false,
+      "description": "Worked on contract testing with Specmatic and OpenAPI.",
+      "skills": "Java, Spring Boot, OpenAPI, Specmatic",
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 201,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d2",
+      "company": "Agile FAQs Technology Pvt. Ltd.",
+      "role": "Software Intern",
+      "location": "Remote",
+      "type": "Internship",
+      "start_date": "2026-07-01",
+      "end_date": "2026-08-02",
+      "is_current": false,
+      "description": "Worked on contract testing with Specmatic and OpenAPI.",
+      "skills": "Java, Spring Boot, OpenAPI, Specmatic",
+      "display_order": 1
+    }
+  }
+}

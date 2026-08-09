@@ -1,11 +1,12 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const app = require("../server");
 
 describe("Auth Routes", () => {
   it("should login with correct credentials", async () => {
     const res = await request(app)
       .post("/api/auth/login")
-      .send({ email: "krameshr348@gmail.com", password: "Ramesh2002" });
+      .send({ email: "krameshr348@gmail.com", password: "Ramesh@2002" });
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
@@ -20,7 +21,9 @@ describe("Auth Routes", () => {
   });
 });
 
+// ✅ CORRECT FIX
 afterAll(async () => {
-  const mongoose = require("mongoose");
-  await mongoose.connection.close();
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
+  }
 });

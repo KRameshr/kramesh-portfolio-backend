@@ -1,0 +1,25 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/about",
+    "headers": {
+      "X-Simulate-Error": "true",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "name": "Test Name",
+      "title": "Test Title",
+      "bio": "Test bio",
+      "resume_url": "https://example.com/resume.pdf",
+      "github": "https://github.com/test",
+      "linkedin": "https://linkedin.com/in/test",
+      "email": "test@example.com"
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

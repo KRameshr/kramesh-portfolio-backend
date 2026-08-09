@@ -1,0 +1,29 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/projects",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "title": "Portfolio Backend API",
+      "description": "REST API for personal portfolio.",
+      "tech_stack": "Node.js, Express, MongoDB",
+      "live_url": "https://kramesh.dev",
+      "github_url": "https://github.com/KRameshr/kramesh-portfolio-backend",
+      "is_featured": true
+    }
+  },
+  "http-response": {
+    "status": 201,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d4",
+      "title": "Portfolio Backend API",
+      "description": "REST API for personal portfolio.",
+      "tech_stack": "Node.js, Express, MongoDB",
+      "live_url": "https://kramesh.dev",
+      "github_url": "https://github.com/KRameshr/kramesh-portfolio-backend",
+      "is_featured": true
+    }
+  }
+}

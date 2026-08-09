@@ -1,0 +1,15 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/blogs/getting-started-with-specmatic"
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d5",
+      "title": "Getting Started with Specmatic",
+      "slug": "getting-started-with-specmatic",
+      "content": "Specmatic is a powerful tool for contract testing."
+    }
+  }
+}
