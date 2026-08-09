@@ -1,3 +1,17 @@
+/**
+ * Validation schemas for each POST/PUT endpoint.
+ * Split into "required" (must be present + correct type) and
+ * "optional" (if key present, must not be null + correct type).
+ *
+ * Required fields match the OpenAPI schema's `required` list.
+ * Optional fields are all other properties in the OpenAPI schema.
+ *
+ * Usage in route files:
+ *   const { validate } = require("../middleware/validate");
+ *   const schemas = require("./validationSchemas");
+ *   router.post("/", validate(schemas.createProject), createProject);
+ */
+
 const schemas = {
   // About — required: name, title, bio
   createAbout: {
@@ -119,6 +133,7 @@ const schemas = {
     },
   },
 
+  // Contact — required: name, email, message. subject is optional.
   createContact: {
     required: {
       name: "string",

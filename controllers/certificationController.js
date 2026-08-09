@@ -95,7 +95,7 @@ const updateCertification = async (req, res) => {
     }
 
     const cert = await Certification.findByIdAndUpdate(req.params.id, data, {
-      returnDocument: "after", // ✅ new: true ki badulu updated option
+      returnDocument: "after", // new: true ki badulu updated option
     });
     if (!cert)
       return res.status(404).json({ message: "Certification not found" });

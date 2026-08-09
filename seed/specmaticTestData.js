@@ -285,7 +285,7 @@ const seed = async () => {
     console.log("Updated Admin:", ADMIN_ID);
   }
 
-  console.log("✅ All seeding complete!");
+  console.log(" All seeding complete!");
 };
 
 seed()
@@ -293,6 +293,6 @@ seed()
     process.exit(0);
   })
   .catch((err) => {
-    console.error("❌ Seed failed:", err);
+    console.error("Seed failed:", err);
     process.exit(1);
   });

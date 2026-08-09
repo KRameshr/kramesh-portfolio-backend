@@ -21,7 +21,7 @@ describe("Auth Routes", () => {
   });
 });
 
-// ✅ CORRECT FIX
+//  CORRECT FIX
 afterAll(async () => {
   if (mongoose.connection.readyState !== 0) {
     await mongoose.disconnect();

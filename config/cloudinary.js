@@ -26,7 +26,7 @@ const certStorage = new CloudinaryStorage({
   },
 });
 
-// for about/profile
+// about/profile
 const aboutStorage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -35,7 +35,7 @@ const aboutStorage = new CloudinaryStorage({
   },
 });
 
-//  for blogs
+//  blogs
 const blogStorage = new CloudinaryStorage({
   cloudinary,
   params: {
