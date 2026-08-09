@@ -26,14 +26,12 @@ app.use("/api", simulateError);
 
 // Root & Health Monitoring Endpoints
 app.get("/", (req, res) => res.json({ message: "Server is running" }));
-<<<<<<< HEAD
-app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
-=======
 app.get("/health", (req, res) =>
-  res.json({ status: "UP", timestamp: new Date().toISOString() }),
+  res.status(200).json({ status: "UP", timestamp: new Date().toISOString() }),
 );
-app.get("/actuator/mappings", (req, res) => res.json(buildActuatorMappings()));
->>>>>>> add-specmatic-contract-testing
+app.get("/actuator/mappings", (req, res) =>
+  res.json(buildActuatorMappings(app)),
+);
 
 // API Routes
 app.use("/api/auth", require("./routes/auth"));
