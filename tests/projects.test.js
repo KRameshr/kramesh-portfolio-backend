@@ -17,7 +17,7 @@ describe("Projects Routes", () => {
   });
 });
 
-// ✅ CORRECT FIX
+//  CORRECT FIX
 afterAll(async () => {
   await mongoose.disconnect();
 });

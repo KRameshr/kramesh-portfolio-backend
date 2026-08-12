@@ -42,7 +42,7 @@ const updateEducation = async (req, res) => {
     const education = await Education.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { returnDocument: "after", runValidators: true }, 
+      { returnDocument: "after", runValidators: true },
     );
     if (!education) {
       return res.status(404).json({ message: "Education not found" });

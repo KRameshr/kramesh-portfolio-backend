@@ -1,5 +1,4 @@
 /**
- * SEED SCRIPT - Run before Specmatic tests
  * Creates a test admin user for login tests
  *
  * Usage: node seed.js
@@ -15,7 +14,7 @@ const MONGO_URI =
 const seedAdmin = async () => {
   try {
     await mongoose.connect(MONGO_URI);
-    console.log("✅ DB Connected for seeding");
+    console.log("DB Connected for seeding");
 
     // Clear existing admin
     await Admin.deleteMany({});
@@ -27,7 +26,7 @@ const seedAdmin = async () => {
       password: hashedPassword,
     });
 
-    console.log("✅ Test admin user created:");
+    console.log(" Test admin user created:");
     console.log("   Email: admin@kramesh.dev");
     console.log("   Password: SecurePassword123");
     console.log("");
@@ -35,7 +34,7 @@ const seedAdmin = async () => {
 
     process.exit(0);
   } catch (err) {
-    console.error("❌ Seed failed:", err.message);
+    console.error(" Seed failed:", err.message);
     process.exit(1);
   }
 };

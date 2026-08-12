@@ -1,11 +1,13 @@
 const nodemailer = require("nodemailer");
 const Contact = require("../models/Contact");
 
-// Create transporter only if email credentials exist
+// SMTP Transporter Config (Port 465 SSL connection)
 const transporter =
   process.env.EMAIL_USER && process.env.EMAIL_PASS
     ? nodemailer.createTransport({
-        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
@@ -17,7 +19,6 @@ const sendMessage = async (req, res) => {
   const body = req.body || {};
   const { name, email, subject, message } = body;
 
-  // Validation - subject null aina accept cheyyali (optional field)
   if (!name || !email || !message) {
     return res.status(400).json({
       message: "Name, email and message are required",
@@ -25,19 +26,24 @@ const sendMessage = async (req, res) => {
   }
 
   try {
-    // Save to DB first (always works)
-    await Contact.create({
+    // 1. Save to Database
+    const savedContact = await Contact.create({
       name,
       email,
       subject: subject || undefined,
       message,
     });
 
-    // Email ONLY in production, NOT in test env
+    // 2. Return Instant Response to Frontend (No delay for user!)
+    res.status(201).json({
+      message: "Message sent successfully!",
+    });
+
+    // 3. Send Email asynchronously in background (Without await)
     if (process.env.NODE_ENV !== "test" && transporter) {
-      try {
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
+      transporter
+        .sendMail({
+          from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
           to: process.env.EMAIL_USER,
           subject: `Portfolio Contact: ${subject || "No Subject"} from ${name}`,
           html: `<h3>New Contact Message</h3>
@@ -45,15 +51,14 @@ const sendMessage = async (req, res) => {
                  <p><strong>Email:</strong> ${email}</p>
                  <p><strong>Subject:</strong> ${subject || "No Subject"}</p>
                  <p><strong>Message:</strong> ${message}</p>`,
+        })
+        .then(() => {
+          console.log("Email sent successfully to Gmail!");
+        })
+        .catch((emailErr) => {
+          console.error("Nodemailer Email Error:", emailErr.message);
         });
-      } catch (emailErr) {
-        console.log("Email failed (ignored, contact saved):", emailErr.message);
-      }
     }
-
-    return res.status(201).json({
-      message: "Message sent successfully!",
-    });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
