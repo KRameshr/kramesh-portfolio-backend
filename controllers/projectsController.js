@@ -1,7 +1,7 @@
 const Project = require("../models/Project");
 const { cloudinary } = require("../config/cloudinary");
 
-// Cloudinary కి Buffer ని అప్‌లోడ్ చేసే హెల్పర్ ఫంక్షన్
+// Cloudinary
 const uploadToCloudinary = (fileBuffer) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
@@ -39,7 +39,6 @@ const createProject = async (req, res) => {
         "Node.js",
     };
 
-    // ఇమేజ్ ఉన్నట్లయితే Cloudinary కి Stream ద్వారా అప్‌లోడ్ చేయడం
     if (req.file && req.file.buffer) {
       const result = await uploadToCloudinary(req.file.buffer);
       data.image_url = result.secure_url;

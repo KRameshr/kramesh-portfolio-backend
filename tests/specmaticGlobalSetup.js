@@ -44,7 +44,6 @@ module.exports = async () => {
         resolve();
       });
     });
-    // Jest global teardown ki same variable share chestunnam
     global.__EXPRESS_SERVER__ = serverInstance;
   }
 

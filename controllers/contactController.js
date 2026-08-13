@@ -33,8 +33,6 @@ const sendMessage = async (req, res) => {
       subject: subject || undefined,
       message,
     });
-
-    // 2. Return Instant Response to Frontend (No delay for user!)
     res.status(201).json({
       message: "Message sent successfully!",
     });
