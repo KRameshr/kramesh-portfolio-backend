@@ -1,6 +1,20 @@
 const Project = require("../models/Project");
 const { cloudinary } = require("../config/cloudinary");
 
+// Cloudinary కి Buffer ని అప్‌లోడ్ చేసే హెల్పర్ ఫంక్షన్
+const uploadToCloudinary = (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: "projects" },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      },
+    );
+    uploadStream.end(fileBuffer);
+  });
+};
+
 const getProjects = async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
@@ -25,19 +39,27 @@ const createProject = async (req, res) => {
         "Node.js",
     };
 
-    if (req.file) {
+    // ఇమేజ్ ఉన్నట్లయితే Cloudinary కి Stream ద్వారా అప్‌లోడ్ చేయడం
+    if (req.file && req.file.buffer) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      data.image_url = result.secure_url;
+      data.image_public_id = result.public_id;
+    } else if (req.file && req.file.path) {
       data.image_url = req.file.path;
       data.image_public_id = req.file.filename;
     } else if (body.image_url || body.image || body.imageUrl) {
       data.image_url = body.image_url || body.image || body.imageUrl;
     }
 
-    if (body.live_url || body.liveUrl || body.liveUrl)
+    if (body.live_url || body.liveUrl)
       data.live_url = body.live_url || body.liveUrl;
     if (body.github_url || body.githubUrl || body.github)
       data.github_url = body.github_url || body.githubUrl || body.github;
-    if (body.is_featured !== undefined) data.is_featured = body.is_featured;
-    else if (body.featured !== undefined) data.is_featured = body.featured;
+    if (body.is_featured !== undefined)
+      data.is_featured =
+        body.is_featured === "true" || body.is_featured === true;
+    else if (body.featured !== undefined)
+      data.is_featured = body.featured === "true" || body.featured === true;
 
     const project = await Project.create(data);
     res.status(201).json(project);
@@ -69,16 +91,26 @@ const updateProject = async (req, res) => {
     ) {
       data.github_url = body.github_url || body.githubUrl || body.github;
     }
-    if (body.is_featured !== undefined) data.is_featured = body.is_featured;
-    else if (body.featured !== undefined) data.is_featured = body.featured;
+    if (body.is_featured !== undefined)
+      data.is_featured =
+        body.is_featured === "true" || body.is_featured === true;
+    else if (body.featured !== undefined)
+      data.is_featured = body.featured === "true" || body.featured === true;
 
     if (req.file) {
       const existing = await Project.findById(req.params.id);
       if (existing?.image_public_id) {
         await cloudinary.uploader.destroy(existing.image_public_id);
       }
-      data.image_url = req.file.path;
-      data.image_public_id = req.file.filename;
+
+      if (req.file.buffer) {
+        const result = await uploadToCloudinary(req.file.buffer);
+        data.image_url = result.secure_url;
+        data.image_public_id = result.public_id;
+      } else if (req.file.path) {
+        data.image_url = req.file.path;
+        data.image_public_id = req.file.filename;
+      }
     } else if (body.image_url || body.image || body.imageUrl) {
       data.image_url = body.image_url || body.image || body.imageUrl;
     }

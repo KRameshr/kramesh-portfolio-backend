@@ -25,8 +25,8 @@ router.post(
 router.put(
   "/:id",
   protect,
-  optionalUpload(uploadProject.single("image")), // 1. ఇమేజ్ & టెక్స్ట్ డేటా పార్స్ అవుతుంది
-  validate(schemas.updateProject), // 2. req.body ని వాలిడేట్ చేస్తుంది
+  optionalUpload(uploadProject.single("image")),
+  validate(schemas.updateProject),
   updateProject,
 );
 router.delete("/:id", protect, deleteProject);
