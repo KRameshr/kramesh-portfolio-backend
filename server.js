@@ -51,7 +51,7 @@ app.use((req, res) => {
 
 // Global Centralized Error Handler
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || err.status || 500;
   res.status(statusCode).json({
     message: err.message || "Internal Server Error",
   });

@@ -13,18 +13,20 @@ const { validate } = require("../middleware/validate");
 const schemas = require("./validationSchemas");
 
 router.get("/", getProjects);
+
 router.post(
   "/",
   protect,
-  validate(schemas.createProject),
   optionalUpload(uploadProject.single("image")),
+  validate(schemas.createProject),
   createProject,
 );
+
 router.put(
   "/:id",
   protect,
-  validate(schemas.updateProject),
-  optionalUpload(uploadProject.single("image")),
+  optionalUpload(uploadProject.single("image")), // 1. ఇమేజ్ & టెక్స్ట్ డేటా పార్స్ అవుతుంది
+  validate(schemas.updateProject), // 2. req.body ని వాలిడేట్ చేస్తుంది
   updateProject,
 );
 router.delete("/:id", protect, deleteProject);

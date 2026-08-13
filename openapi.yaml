@@ -1203,7 +1203,7 @@ paths:
         - contact
       operationId: sendMessage
       summary: Send a contact message
-      description: Public endpoint â€” visitors submit the contact form. No auth required.
+      description: Public endpoint - visitors submit the contact form. No auth required.
       requestBody:
         required: true
         content:
@@ -1600,27 +1600,33 @@ components:
           example: Sri Venkateswara University
         location:
           type: string
+          nullable: true
           example: Tirupati, Andhra Pradesh
         degree:
           type: string
           example: B.Tech Computer Science
         branch:
           type: string
+          nullable: true
           example: Computer Science and Engineering
         start_date:
           type: string
           example: "2020-08-01"
         end_date:
           type: string
+          nullable: true
           example: "2024-05-30"
         progress:
           type: string
+          nullable: true
           example: Completed
         is_current:
           type: boolean
+          nullable: true
           example: false
         display_order:
           type: integer
+          nullable: true
           example: 1
       required:
         - institution
@@ -1661,27 +1667,34 @@ components:
           example: Software Intern
         location:
           type: string
+          nullable: true
           example: Remote
         type:
           type: string
+          nullable: true
           example: Internship
         start_date:
           type: string
           example: "2026-07-01"
         end_date:
           type: string
+          nullable: true
           example: "2026-08-02"
         is_current:
           type: boolean
+          nullable: true
           example: false
         description:
           type: string
+          nullable: true
           example: Worked on contract testing with Specmatic and OpenAPI.
         skills:
           type: string
+          nullable: true
           example: Java, Spring Boot, OpenAPI, Specmatic
         display_order:
           type: integer
+          nullable: true
           example: 1
       required:
         - company
@@ -1729,9 +1742,11 @@ components:
           example: programming
         icon_url:
           type: string
+          nullable: true
           example: https://example.com/icons/java.svg
         proficiency:
           type: integer
+          nullable: true
           example: 80
       required:
         - name
@@ -1774,18 +1789,23 @@ components:
           example: I build web applications using the MERN stack and Java/Spring Boot.
         image_url:
           type: string
+          nullable: true
           example: https://res.cloudinary.com/demo/image/upload/about.jpg
         resume_url:
           type: string
+          nullable: true
           example: https://res.cloudinary.com/demo/raw/upload/resume.pdf
         github:
           type: string
+          nullable: true
           example: https://github.com/KRameshr
         linkedin:
           type: string
+          nullable: true
           example: https://linkedin.com/in/kurubaramesh
         email:
           type: string
+          nullable: true
           example: ramesh@example.com
       required:
         - name
@@ -1832,15 +1852,19 @@ components:
           example: Node.js, Express, MongoDB, JWT
         image_url:
           type: string
+          nullable: true
           example: https://res.cloudinary.com/demo/image/upload/project.jpg
         live_url:
           type: string
+          nullable: true
           example: https://kramesh.dev
         github_url:
           type: string
+          nullable: true
           example: https://github.com/KRameshr/kramesh-portfolio-backend
         is_featured:
           type: boolean
+          nullable: true
           example: true
       required:
         - title
@@ -1887,12 +1911,15 @@ components:
           example: In this post I walk through setting up Specmatic contract tests...
         excerpt:
           type: string
+          nullable: true
           example: A step-by-step guide to contract testing with Specmatic.
         cover_image_url:
           type: string
+          nullable: true
           example: https://res.cloudinary.com/demo/image/upload/blog.jpg
         is_published:
           type: boolean
+          nullable: true
           example: true
       required:
         - title
@@ -1936,6 +1963,7 @@ components:
           example: priya@example.com
         subject:
           type: string
+          nullable: true
           example: Project collaboration inquiry
         message:
           type: string
@@ -1982,30 +2010,39 @@ components:
           example: Executive PG Certification in Full Stack Web Development
         certificate_id:
           type: string
+          nullable: true
           example: IITR-FSD-2026-001
         description:
           type: string
+          nullable: true
           example: A comprehensive program covering MERN stack and Java/Spring Boot.
         skills:
           type: string
+          nullable: true
           example: React, Node.js, Java, Spring Boot
         start_date:
           type: string
+          nullable: true
           example: "2025-06-01"
         end_date:
           type: string
+          nullable: true
           example: "2026-05-30"
         is_expired:
           type: boolean
+          nullable: true
           example: false
         credential_url:
           type: string
+          nullable: true
           example: https://example.com/verify/abc123
         image_url:
           type: string
+          nullable: true
           example: https://res.cloudinary.com/demo/image/upload/cert.jpg
         display_order:
           type: integer
+          nullable: true
           example: 1
       required:
         - institution_name

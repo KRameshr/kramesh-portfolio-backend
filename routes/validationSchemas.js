@@ -133,7 +133,7 @@ const schemas = {
     },
   },
 
-  // Contact — required: name, email, message. subject is optional.
+  // Contact — required: name, email, message
   createContact: {
     required: {
       name: "string",
