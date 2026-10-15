@@ -15,15 +15,15 @@ router.get("/", getAbout);
 router.post(
   "/",
   protect,
-  validate(schemas.createAbout),
   optionalUpload(uploadAbout.single("image")),
+  validate(schemas.createAbout),
   createAbout,
 );
 router.put(
   "/",
   protect,
-  validate(schemas.updateAbout),
   optionalUpload(uploadAbout.single("image")),
+  validate(schemas.updateAbout),
   updateAbout,
 );
 
