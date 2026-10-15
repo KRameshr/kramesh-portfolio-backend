@@ -1,0 +1,12 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/blogs/non-existent-slug-12345"
+  },
+  "http-response": {
+    "status": 404,
+    "body": {
+      "message": "Blog not found"
+    }
+  }
+}

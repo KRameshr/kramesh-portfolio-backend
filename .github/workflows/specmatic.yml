@@ -1,0 +1,62 @@
+name: Specmatic Contract Tests
+
+on:
+  push:
+    branches: [main, add-specmatic-contract-testing]
+  pull_request:
+    branches: [main]
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Java (required by Specmatic)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Create .env file
+        run: |
+          echo "PORT=3000" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_STRING=${{ secrets.DB_STRING }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "CLOUDINARY_CLOUD_NAME=test" >> .env
+          echo "CLOUDINARY_API_KEY=test" >> .env
+          echo "CLOUDINARY_API_SECRET=test" >> .env
+          echo "EMAIL_USER=test@example.com" >> .env
+          echo "EMAIL_PASS=test" >> .env
+
+      - name: Seed contract test data
+        run: node seed/specmaticTestData.js
+
+      - name: Start server
+        run: nohup node server.js &
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3000/api/education --timeout 30000
+
+      - name: Run Specmatic contract tests
+        run: npx specmatic test --testBaseURL="http://localhost:3000/api" openapi.yaml
+
+      - name: Upload Specmatic HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: specmatic-report
+          path: build/reports/specmatic/test/html/index.html

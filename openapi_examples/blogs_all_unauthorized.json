@@ -1,0 +1,15 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/blogs/all",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

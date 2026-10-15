@@ -29,6 +29,17 @@ const postContact = (payload, ip) =>
     .set("X-Forwarded-For", ip)
     .send(payload);
 
+const postContactWithEmailEnabled = async (payload, ip) => {
+  const previousNodeEnv = process.env.NODE_ENV;
+  process.env.NODE_ENV = "production";
+  try {
+    return await postContact(payload, ip);
+  } finally {
+    if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = previousNodeEnv;
+  }
+};
+
 describe("Contact submission API", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -58,7 +69,7 @@ describe("Contact submission API", () => {
   });
 
   it("emails the configured recipient and sets the visitor as reply-to", async () => {
-    const response = await postContact(
+    const response = await postContactWithEmailEnabled(
       {
         name: "  Visitor  ",
         email: "visitor@example.com",
@@ -69,7 +80,7 @@ describe("Contact submission API", () => {
     );
 
     expect(response.status).toBe(201);
-    expect(response.body.message).toMatch(/accepted for delivery/i);
+    expect(response.body.message).toMatch(/saved/i);
     expect(Contact.create).toHaveBeenCalledWith({
       name: "Visitor",
       email: "visitor@example.com",
@@ -85,10 +96,11 @@ describe("Contact submission API", () => {
     );
   });
 
-  it("returns an error when the mail provider does not accept the recipient", async () => {
+  it("logs when the mail provider does not accept the recipient after saving", async () => {
     mockSendMail.mockResolvedValueOnce({ accepted: [], rejected: ["owner@example.com"] });
+    const errorLog = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    const response = await postContact(
+    const response = await postContactWithEmailEnabled(
       {
         name: "Visitor",
         email: "visitor@example.com",
@@ -97,12 +109,17 @@ describe("Contact submission API", () => {
       "198.51.100.14",
     );
 
-    expect(response.status).toBe(503);
-    expect(response.body.message).toMatch(/could not email/i);
+    expect(response.status).toBe(201);
+    await new Promise(setImmediate);
+    expect(errorLog).toHaveBeenCalledWith(
+      "[contact-email] SMTP recipient was not accepted",
+      { code: "ERECIPIENTNOTACCEPTED" },
+    );
     expect(response.body.stack).toBeUndefined();
+    errorLog.mockRestore();
   });
 
-  it("returns a server error when SMTP authentication fails after saving the message", async () => {
+  it("logs safe SMTP metadata when authentication fails after saving", async () => {
     mockSendMail.mockRejectedValueOnce(
       Object.assign(new Error("credentials should not be logged"), {
         code: "EAUTH",
@@ -112,7 +129,7 @@ describe("Contact submission API", () => {
     );
     const errorLog = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    const response = await postContact(
+    const response = await postContactWithEmailEnabled(
       {
         name: "Visitor",
         email: "visitor@example.com",
@@ -121,8 +138,9 @@ describe("Contact submission API", () => {
       "198.51.100.15",
     );
 
-    expect(response.status).toBe(503);
-    expect(response.body.message).toMatch(/saved your message, but could not email/i);
+    expect(response.status).toBe(201);
+    await new Promise(setImmediate);
+    expect(response.body.message).toMatch(/saved/i);
     expect(response.body.message).not.toMatch(/credentials should not be logged/i);
     expect(errorLog).toHaveBeenCalledWith(
       "[contact-email] Contact notification failed",
@@ -137,7 +155,7 @@ describe("Contact submission API", () => {
     errorLog.mockRestore();
   });
 
-  it("does not silently send to the SMTP sender when no contact recipient is configured", async () => {
+  it("saves the message without sending when no contact recipient is configured", async () => {
     const configuredRecipient = process.env.CONTACT_RECEIVER_EMAIL;
     delete process.env.CONTACT_RECEIVER_EMAIL;
 
@@ -151,8 +169,9 @@ describe("Contact submission API", () => {
     );
 
     process.env.CONTACT_RECEIVER_EMAIL = configuredRecipient;
-    expect(response.status).toBe(503);
-    expect(Contact.create).not.toHaveBeenCalled();
+    expect(response.status).toBe(201);
+    expect(response.body.message).toMatch(/saved/i);
+    expect(Contact.create).toHaveBeenCalledTimes(1);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 

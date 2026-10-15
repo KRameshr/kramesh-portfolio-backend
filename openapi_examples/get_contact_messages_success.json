@@ -1,0 +1,21 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/contact/messages",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": [
+      {
+        "_id": "64f1a2b3c4d5e6f7a8b9c0d6",
+        "name": "Test User",
+        "email": "test@example.com",
+        "message": "Hi, I'd like to discuss a potential collaboration.",
+        "subject": "Project collaboration inquiry"
+      }
+    ]
+  }
+}

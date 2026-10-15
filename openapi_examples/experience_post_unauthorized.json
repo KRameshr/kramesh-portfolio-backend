@@ -1,0 +1,27 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/experience",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    },
+    "body": {
+      "company": "Test Co",
+      "role": "Intern",
+      "location": "Remote",
+      "type": "Internship",
+      "start_date": "2026-01-01",
+      "end_date": "2026-06-01",
+      "is_current": false,
+      "description": "Test",
+      "skills": "Test",
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

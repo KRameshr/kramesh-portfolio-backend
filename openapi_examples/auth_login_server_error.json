@@ -1,0 +1,19 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/auth/login",
+    "headers": {
+      "X-Simulate-Error": "true"
+    },
+    "body": {
+      "email": "admin@kramesh.dev",
+      "password": "SecurePassword123"
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

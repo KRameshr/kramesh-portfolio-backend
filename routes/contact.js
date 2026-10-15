@@ -7,6 +7,8 @@ const {
   deleteMessage,
 } = require("../controllers/contactController");
 const protect = require("../middleware/auth");
+const { validate } = require("../middleware/validate");
+const schemas = require("./validationSchemas");
 
 const contactRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -16,7 +18,7 @@ const contactRateLimit = rateLimit({
   message: { message: "Too many contact requests. Please try again later." },
 });
 
-router.post("/", contactRateLimit, sendMessage);
+router.post("/", contactRateLimit, validate(schemas.createContact), sendMessage);
 router.get("/messages", protect, getMessages);
 router.delete("/messages/:id", protect, deleteMessage);
 

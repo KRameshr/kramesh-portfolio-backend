@@ -1,0 +1,20 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/experience/64f1a2b3c4d5e6f7a8b9c000",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "company": "Test Corp",
+      "role": "Developer",
+      "start_date": "2024-01-01"
+    }
+  },
+  "http-response": {
+    "status": 404,
+    "body": {
+      "message": "Experience not found"
+    }
+  }
+}

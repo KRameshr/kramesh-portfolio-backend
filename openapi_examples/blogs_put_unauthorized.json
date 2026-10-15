@@ -1,0 +1,22 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/blogs/64f1a2b3c4d5e6f7a8b9c0d5",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    },
+    "body": {
+      "title": "Test Blog",
+      "slug": "test-blog",
+      "content": "Test content",
+      "excerpt": "Test excerpt",
+      "is_published": true
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

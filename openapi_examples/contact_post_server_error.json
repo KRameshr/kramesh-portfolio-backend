@@ -1,0 +1,21 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/contact",
+    "headers": {
+      "X-Simulate-Error": "true"
+    },
+    "body": {
+      "name": "Test User",
+      "email": "test@test.com",
+      "subject": "Test",
+      "message": "Test message"
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

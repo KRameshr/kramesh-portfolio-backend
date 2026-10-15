@@ -1,0 +1,23 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/projects/64f1a2b3c4d5e6f7a8b9c0d4",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    },
+    "body": {
+      "title": "Test Project",
+      "description": "Test description",
+      "tech_stack": "Node.js",
+      "live_url": "https://test.com",
+      "github_url": "https://github.com/test",
+      "is_featured": true
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

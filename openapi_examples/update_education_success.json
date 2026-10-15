@@ -1,0 +1,35 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/education/64f1a2b3c4d5e6f7a8b9c0d1",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "institution": "Sri Venkateswara University",
+      "location": "Tirupati, Andhra Pradesh",
+      "degree": "B.Tech Computer Science",
+      "branch": "Computer Science and Engineering",
+      "start_date": "2020-08-01",
+      "end_date": "2024-05-30",
+      "progress": "Completed",
+      "is_current": false,
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "_id": "64f1a2b3c4d5e6f7a8b9c0d1",
+      "institution": "Sri Venkateswara University",
+      "location": "Tirupati, Andhra Pradesh",
+      "degree": "B.Tech Computer Science",
+      "branch": "Computer Science and Engineering",
+      "start_date": "2020-08-01",
+      "end_date": "2024-05-30",
+      "progress": "Completed",
+      "is_current": false,
+      "display_order": 1
+    }
+  }
+}

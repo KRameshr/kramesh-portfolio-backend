@@ -1,0 +1,15 @@
+{
+  "http-request": {
+    "method": "DELETE",
+    "path": "/contact/messages/64f1a2b3c4d5e6f7a8b9c0dc",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "message": "Message deleted successfully"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/auth/login",
+    "body": {
+      "email": "admin@kramesh.dev",
+      "password": "SecurePassword123"
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    }
+  }
+}

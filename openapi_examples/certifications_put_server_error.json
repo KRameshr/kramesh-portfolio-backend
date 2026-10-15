@@ -1,0 +1,28 @@
+{
+  "http-request": {
+    "method": "PUT",
+    "path": "/certifications/64f1a2b3c4d5e6f7a8b9c0d7",
+    "headers": {
+      "X-Simulate-Error": "true",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjFhMmIzYzRkNWU2ZjdhOGI5YzBmZiJ9.2wAdvjcJjzpsXzZ72ca7IyiUtVpXVGjxBrTbvF1hNkY"
+    },
+    "body": {
+      "institution_name": "Test Institution",
+      "certificate_name": "Test Cert",
+      "certificate_id": "TEST-1",
+      "description": "Test",
+      "skills": "Test",
+      "start_date": "2024-01-01",
+      "end_date": "2025-01-01",
+      "is_expired": false,
+      "credential_url": "https://test.com",
+      "display_order": 1
+    }
+  },
+  "http-response": {
+    "status": 500,
+    "body": {
+      "message": "Simulated server error"
+    }
+  }
+}

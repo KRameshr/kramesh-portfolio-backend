@@ -1,0 +1,15 @@
+{
+  "http-request": {
+    "method": "DELETE",
+    "path": "/experience/64f1a2b3c4d5e6f7a8b9c0d2",
+    "headers": {
+      "Authorization": "Bearer invalidtoken123"
+    }
+  },
+  "http-response": {
+    "status": 401,
+    "body": {
+      "message": "Not authorized"
+    }
+  }
+}

@@ -6,13 +6,18 @@ const MAX_NAME_LENGTH = 120;
 const MAX_SUBJECT_LENGTH = 200;
 const MAX_MESSAGE_LENGTH = 10000;
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const transporter =
+  process.env.EMAIL_USER && process.env.EMAIL_PASS
+    ? nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      })
+    : null;
 
 const smtpErrorDetails = (error) => ({
   code: error.code || "SMTP_ERROR",
@@ -39,7 +44,7 @@ const verifySmtpConfiguration = async () => {
     recipientConfigured,
   });
 
-  if (missingVariables.length > 0) {
+  if (missingVariables.length > 0 || !transporter) {
     console.error("[contact-email] SMTP verification skipped", {
       missingVariables,
     });
@@ -73,7 +78,6 @@ const escapeHtml = (value) =>
     return entities[character];
   });
 
-// POST /api/contact
 const sendMessage = async (req, res) => {
   const { name, email, subject, message } = req.body || {};
   const cleanName = typeof name === "string" ? name.trim() : "";
@@ -82,22 +86,16 @@ const sendMessage = async (req, res) => {
   const cleanMessage = typeof message === "string" ? message.trim() : "";
 
   if (!cleanName || !cleanEmail || !cleanMessage) {
-    return res.status(400).json({
-      message: "Name, email and message are required",
-    });
+    return res.status(400).json({ message: "Name, email and message are required" });
   }
-
   if (
     cleanName.length > MAX_NAME_LENGTH ||
     cleanEmail.length > 254 ||
     cleanSubject.length > MAX_SUBJECT_LENGTH ||
     cleanMessage.length > MAX_MESSAGE_LENGTH
   ) {
-    return res.status(400).json({
-      message: "One or more fields exceed the allowed length",
-    });
+    return res.status(400).json({ message: "One or more fields exceed the allowed length" });
   }
-
   if (!EMAIL_PATTERN.test(cleanEmail)) {
     return res.status(400).json({ message: "Please provide a valid email address" });
   }
@@ -110,95 +108,90 @@ const sendMessage = async (req, res) => {
     ["CONTACT_RECEIVER_EMAIL", receiverEmail],
   ]
     .filter(([, value]) => !value)
-    .map(([name]) => name);
-  if (missingVariables.length > 0 || !EMAIL_PATTERN.test(receiverEmail || "")) {
-    console.error("[contact-email] SMTP configuration is incomplete", {
-      missingVariables,
-      recipientFormatValid: EMAIL_PATTERN.test(receiverEmail || ""),
-    });
-    return res.status(503).json({
-      message: "The contact service is temporarily unavailable. Please try again later.",
-    });
-  }
+    .map(([variable]) => variable);
 
-  let messageSaved = false;
-  let smtpAttempted = false;
   try {
     await Contact.create({
       name: cleanName,
       email: cleanEmail,
-      subject: cleanSubject,
+      subject: cleanSubject || undefined,
       message: cleanMessage,
     });
-    messageSaved = true;
-    smtpAttempted = true;
-    const result = await transporter.sendMail({
-      from: senderEmail,
-      to: receiverEmail,
-      replyTo: cleanEmail,
-      subject: `Portfolio Contact: ${cleanSubject || "New Message"} from ${cleanName}`,
-      html: `
-        <h3>New message from your portfolio</h3>
-        <p><strong>Name:</strong> ${escapeHtml(cleanName)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
-        <p><strong>Subject:</strong> ${escapeHtml(cleanSubject || "N/A")}</p>
-        <p><strong>Message:</strong> ${escapeHtml(cleanMessage).replace(/\n/g, "<br>")}</p>
-      `,
-    });
+  } catch (error) {
+    console.error("[contact-email] Contact persistence failed", smtpErrorDetails(error));
+    return res.status(500).json({ message: "The contact service is temporarily unavailable." });
+  }
 
-    const acceptedRecipients = (result.accepted || []).map((recipient) =>
-      String(recipient).toLowerCase(),
-    );
-    if (!acceptedRecipients.includes(receiverEmail.toLowerCase())) {
-      throw Object.assign(
-        new Error("Mail provider did not accept the configured recipient"),
-        { code: "ERECIPIENTNOTACCEPTED" },
-      );
-    }
+  const smtpReady =
+    missingVariables.length === 0 &&
+    EMAIL_PATTERN.test(receiverEmail || "") &&
+    Boolean(transporter);
 
-    return res.status(201).json({
-      message: "Your message was accepted for delivery.",
+  if (!smtpReady) {
+    console.error("[contact-email] SMTP configuration is incomplete", {
+      missingVariables,
+      recipientFormatValid: EMAIL_PATTERN.test(receiverEmail || ""),
     });
-  } catch (err) {
-    console.error("[contact-email] Contact notification failed", {
-      stage: smtpAttempted ? "smtp-send" : "database-save",
-      ...smtpErrorDetails(err),
-    });
-    return res.status(503).json({
-      message: messageSaved
-        ? "We saved your message, but could not email it. Please do not resubmit; try again later."
-        : "The contact service is temporarily unavailable. Please try again later.",
-    });
+    return res.status(201).json({ message: "Your message was saved." });
+  }
+
+  res.status(201).json({ message: "Your message was saved." });
+
+  if (process.env.NODE_ENV !== "test") {
+    transporter
+      .sendMail({
+        from: `\"Portfolio Contact\" <${senderEmail}>`,
+        to: receiverEmail,
+        replyTo: cleanEmail,
+        subject: `Portfolio Contact: ${cleanSubject || "New Message"} from ${cleanName}`,
+        html: `
+          <h3>New message from your portfolio</h3>
+          <p><strong>Name:</strong> ${escapeHtml(cleanName)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
+          <p><strong>Subject:</strong> ${escapeHtml(cleanSubject || "N/A")}</p>
+          <p><strong>Message:</strong> ${escapeHtml(cleanMessage).replace(/\n/g, "<br>")}</p>
+        `,
+      })
+      .then((result) => {
+        const acceptedRecipients = (result.accepted || []).map((recipient) =>
+          String(recipient).toLowerCase(),
+        );
+        if (!acceptedRecipients.includes(receiverEmail.toLowerCase())) {
+          console.error("[contact-email] SMTP recipient was not accepted", {
+            code: "ERECIPIENTNOTACCEPTED",
+          });
+          return;
+        }
+        console.info("[contact-email] SMTP accepted contact notification", {
+          provider: "gmail",
+        });
+      })
+      .catch((error) => {
+        console.error("[contact-email] Contact notification failed", {
+          stage: "smtp-send",
+          ...smtpErrorDetails(error),
+        });
+      });
   }
 };
 
-// GET /api/contact/messages
 const getMessages = async (req, res) => {
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
     res.json(messages);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-// DELETE /api/contact/messages/:id
 const deleteMessage = async (req, res) => {
   try {
-    await Contact.findByIdAndDelete(req.params.id);
-    res.json({
-      message: "Message deleted",
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+    const deleted = await Contact.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Message not found" });
+    res.json({ message: "Message deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = {
-  sendMessage,
-  getMessages,
-  deleteMessage,
-  verifySmtpConfiguration,
-};
+module.exports = { sendMessage, getMessages, deleteMessage, verifySmtpConfiguration };

@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 
 const experienceSchema = new mongoose.Schema(
   {
-    company: { type: String, required: true },
-    role: { type: String, required: true },
-    location: { type: String },
-    type: { type: String, default: "Full-time" },
-    start_date: { type: String, required: true },
-    end_date: { type: String },
-    is_current: { type: Boolean, default: false },
-    description: { type: String },
-    skills: { type: String },
-    display_order: { type: Number, default: 0 },
+    company: { type: String, required: true, cast: false },
+    role: { type: String, required: true, cast: false },
+    location: { type: String, cast: false },
+    type: { type: String, default: "Full-time", cast: false },
+    start_date: { type: String, required: true, cast: false },
+    end_date: { type: String, cast: false },
+    is_current: { type: Boolean, default: false, cast: false },
+    description: { type: String, cast: false },
+    skills: { type: String, cast: false },
+    display_order: { type: Number, default: 0, cast: false },
   },
   { timestamps: true },
 );
