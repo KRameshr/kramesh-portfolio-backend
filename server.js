@@ -1,8 +1,10 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const connectDB = require("./config/db");
+const { verifySmtpConfiguration } = require("./controllers/contactController");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +31,7 @@ app.use("/api/certifications", require("./routes/certifications"));
 app.use("/api/experience", require("./routes/experience"));
 
 if (require.main === module) {
+  verifySmtpConfiguration();
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 

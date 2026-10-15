@@ -13,7 +13,7 @@ const getBlogs = async (req, res) => {
   }
 };
 
-// Get all blogs (admin)
+// Get all blogs 
 const getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
