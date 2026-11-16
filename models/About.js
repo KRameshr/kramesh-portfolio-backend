@@ -10,6 +10,14 @@ const aboutSchema = new mongoose.Schema({
   github: { type: String },
   linkedin: { type: String },
   email: { type: String },
+  skills: {
+    type: [String],
+    default: [],
+  },
+  available_for_opportunities: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("About", aboutSchema);
