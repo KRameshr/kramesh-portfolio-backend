@@ -16,15 +16,15 @@ router.get("/", getCertifications);
 router.post(
   "/",
   protect,
-  validate(schemas.createCertification),
   optionalUpload(uploadCert.single("image")),
+  validate(schemas.createCertification),
   createCertification,
 );
 router.put(
   "/:id",
   protect,
-  validate(schemas.updateCertification),
   optionalUpload(uploadCert.single("image")),
+  validate(schemas.updateCertification),
   updateCertification,
 );
 router.delete("/:id", protect, deleteCertification);
